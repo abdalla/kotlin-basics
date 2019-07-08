@@ -332,6 +332,194 @@ fun highOrderFunctionStuff() {
     mathOnList(numList2, multiply2)
 }
 
+fun collectionStuff() {
+    // ----- COLLECTION OPERATORS -----
+    val numList2 = 1..20
+
+    // Use reduce to sum values in a list
+    val listSum = numList2.reduce { x, y -> x + y }
+    println("Reduce Sum : $listSum")
+
+    // Fold is like Reduce, but it starts with an initial value
+    val listSum2 = numList2.fold(5) { x, y -> x + y }
+    println("Fold Sum : $listSum2")
+
+    // Check if any values are even
+    println("Evens : ${numList2.any {it % 2 == 0}}")
+
+    // Check if all values are even
+    println("Evens : ${numList2.all {it % 2 == 0}}")
+
+    // Return a list of values greater then 3
+    val big3 = numList2.filter { it > 3}
+    big3.forEach { n -> println(">3 : $n") }
+
+    // Use Map to perform an action on every item
+    // and return a new list
+    val times7 = numList2.map {it * 7}
+    times7.forEach { n -> println("*7 : $n") }
+
+}
+
+fun listStuff() {
+    // ----- LISTS -----
+    // There are immutable Lists and mutable MutableLists
+
+    // Create a mutable list
+    var list1: MutableList<Int> = mutableListOf(1,2,3,4,5)
+
+    // Create an immutable list
+    val list2: List<Int> = listOf(1,2,3)
+
+    // Add an item
+    list1.add(6)
+
+    // Get first item
+    println("1st : ${list1.first()}")
+
+    // Get last
+    println("Last : ${list1.last()}")
+
+    // Get value at index
+    println("2nd : ${list1[2]}")
+
+    // Get a list starting from index to another
+    var list3 = list1.subList(0, 3)
+
+    // Size of List
+    println("Length : ${list1.size}")
+
+    // Clear a Mutable list
+    list3.clear()
+
+    // Remove a value
+    list1.remove(1)
+
+    // Remove at index
+    list1.removeAt(1)
+
+    // Add value at index
+    list1[2] = 10
+
+
+    list1.forEach { n -> println("Mutable List : $n") }
+}
+
+fun exceptionStuff() {
+    // ----- EXCEPTION HANDLING -----
+    // Exceptions are handled just like with Java
+
+    val divisor = 2
+
+    try{
+        if (divisor == 0){
+            throw IllegalArgumentException("Can't Divide by Zero")
+        } else {
+            println("5 / $divisor = ${5/divisor}")
+        }
+
+    } catch (e: IllegalArgumentException){
+        println("${e.message}")
+    }
+}
+
+fun mapsStuff() {
+    // ----- MAPS -----
+    // A modifiable collection that holds key value pairs
+
+    // Create a Map
+    val map = mutableMapOf<Int, Any?>()
+
+    // Add values
+    map[1] = "Derek"
+    map[2] = 42
+
+    // Get Size
+    println("Map Size : ${map.size}")
+
+    // Add a key value
+    map.put(3, "Pittsburgh")
+
+    // Remove a key and value
+    map.remove(2)
+
+    // Iterate and get keys and values
+    for((x, y) in map){
+        println("Key : $x Value : $y")
+    }
+
+    // Create a Map and add values
+    val map2 = mutableMapOf(1 to "Doug", 2 to 25)
+
+    for((x, y) in map2){
+        println("Key : $x Value : $y")
+    }
+
+}
+
+fun classesStuff(){
+    // ----- CLASSES -----
+    // Create an Animal object
+    val bowser = Animal("Bowser", 20.0, 13.5)
+
+    // Call method in the class
+    bowser.getInfo()
+
+    // ----- INHERITANCE -----
+    // Create a class Dog that inherits from
+    // the Animal class
+
+    val spot = Dog("Spot", 20.0, 14.5, "Paul Smith")
+
+    spot.getInfo()
+}
+
+fun interfaceStuff() {
+    // ----- INTERFACES -----
+    // Create a `Bird.kt` object that implements the
+    // Flyable interface
+
+    val tweety = Bird("Tweety", true)
+
+    tweety.fly(10.0)
+}
+
+fun nullableStuff() {
+    // ----- NULL SAFETY -----
+    // Null safety is built into Kotlin
+
+    // By default you cannot assign null
+    // var nullVal: String = null
+
+    // To allow for a null value use ?
+    var nullVal: String? = null
+
+    // A function that may return null uses ?
+    // fun myFun(): String?
+
+    // Kotlin provides for the opportunity of a
+    // null value if an if statement protects
+    // from danger
+    fun returnNull(): String? {
+        return null
+    }
+
+    var nullVal2 = returnNull()
+
+    // This is a smart cast
+    if(nullVal2 != null) {
+        println(nullVal2.length)
+    }
+
+    // We could use the force operator !! to force
+    // a null assignment
+//    var nullVal3 = nullVal2!!.length
+
+    // The Elvis operator assigns a default value
+    // if null
+    var nullVal4: String = returnNull() ?: "No Name"
+}
+
 fun main() {
     println("Hello World")
 
@@ -343,7 +531,14 @@ fun main() {
 //    conditionalStuff()
 //    loopStuff()
 //    functionStuff()
-    highOrderFunctionStuff()
+//    highOrderFunctionStuff()
+//    collectionStuff()
+//    listStuff()
+//    exceptionStuff()
+//    mapsStuff()
+//    classesStuff()
+    interfaceStuff()
+    nullableStuff()
 }
 
 // ----- FUNCTIONS -----
@@ -371,7 +566,7 @@ fun fact(x: Int): Int {
     return factTail(x, 1)
 }
 
-fun factorial(x: Int): Int {
+tailrec fun factorial(x: Int): Int {
     if (x == 0) {
         return 1
     }
